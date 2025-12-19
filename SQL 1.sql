@@ -215,4 +215,46 @@ from payment where staff_id=1 or staff_id=2 group by extract(year from payment_d
 
 select * from payment order by customer_id, amount desc;
 
+use world;
+
+-- Data Model :-
+
+-- structure => how to organise 
+-- 1. conceptional ,, 2. logical ,, 3. physical
+-- 1. conceptional => entity,attributes => relationship
+-- 2. logical
+-- 3. phyiscal => table , column , relationship, data types
+
+-- Primary key = unique { no dublicates value}
+-- Foreign key = multiple { dublicates value}
+
+use world;
+
+-- city table (id primary key), country code(foregin key)
+select * from city;
+describe city;
+select * from country;
+
+-- code(primary key)
+select count(code), count(distinct code) from country;
+
+-- join (it is used to connect two tables from primary key and foregin key)
+
+select cy.id, cy.name, cy.countrycode, cnt.code, cnt.name, cnt.continent from city as cy
+join
+country as cnt
+where cy.countrycode=cnt.code;
+
+select cnt.code, cnt.name, cnt.continent from country as cnt;
+
+-- find the city name, population , country name along with the gov. form for each city 
+
+select ct.name, ct.population, cuy.name, cuy.governmentform from city as ct
+join 
+country as cuy
+where ct.countrycode=cuy.code;
+
+-- get the country name and population and the language spoken with the percentage of each language  
+
+
 
