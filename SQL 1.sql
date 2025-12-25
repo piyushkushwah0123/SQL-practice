@@ -430,5 +430,100 @@ select manager.emp_id , manager.emp_name from employee as manager;
 select emp.emp_id , emp.emp_name , emp.manager_id ,emp.salary, manager.emp_id , manager.emp_name  , manager.salary from employee as emp join employee as manager
 where emp.manager_id = manager.emp_id;
 
+use regex;
+
+CREATE TABLE students (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(50),
+    major VARCHAR(50)
+);
+
+INSERT INTO students (student_id, student_name, major) VALUES
+(1, 'Aarav', 'Computer Science'),
+(2, 'Bhavya', 'Mathematics'),
+(3, 'Chetan', 'Physics'),
+(4, 'Diya', 'Computer Science'),
+(5, 'Esha', 'Mathematics'),
+(6, 'Farhan', 'Physics'),
+(7, 'Gauri', 'Computer Science'),
+(8, 'Harsh', 'Mathematics'),
+(9, 'Isha', 'Physics'),
+(10, 'Jay', 'Computer Science'),
+(11, 'Kiran', 'Mathematics'),
+(12, 'Leena', 'Physics'),
+(13, 'Manav', 'Computer Science'),
+(14, 'Neha', 'Mathematics'),
+(15, 'Om', 'Physics'),
+(16, 'Pooja', 'Computer Science'),
+(17, 'Qadir', 'Mathematics'),
+(18, 'Riya', 'Physics'),
+(19, 'Sahil', 'Computer Science'),
+(20, 'Tina', 'Mathematics');
+
+
+CREATE TABLE enrollments (
+    enrollment_id INT PRIMARY KEY,
+    student_id INT,
+    course_name VARCHAR(50),
+    credits INT
+);
+
+INSERT INTO enrollments (enrollment_id, student_id, course_name, credits) VALUES
+(101, 1, 'Data Structures', 4),
+(102, 1, 'Algorithms', 4),
+(103, 2, 'Linear Algebra', 3),
+(104, 3, 'Quantum Mechanics', 4),
+(105, 4, 'Operating Systems', 4),
+(106, 5, 'Statistics', 3),
+(107, 6, 'Electromagnetism', 4),
+(108, 7, 'Databases', 4),
+(109, 8, 'Probability', 3),
+(110, 9, 'Thermodynamics', 4),
+(111, 10, 'Computer Networks', 4),
+(112, 11, 'Calculus II', 3),
+(113, 12, 'Optics', 4),
+(114, 13, 'Machine Learning', 4),
+(115, 14, 'Discrete Math', 3),
+(116, 15, 'Nuclear Physics', 4),
+(117, 16, 'Software Engineering', 4),
+(118, 17, 'Numerical Methods', 3),
+(119, 18, 'Solid State Physics', 4),
+(120, 1, 'Artificial Intelligence', 4);
+
+select * from students;
+select * from enrollments;
+
+-- get the student who have enrolled in any courses or not 
+
+select s.student_id , s.student_name, e.enrollment_id,e.course_name from students as s left join enrollments e on s.student_id=e.student_id;
+
+-- Write a sql , query to list all student alomg with their enrolled it ..... only incluse who have enrolled at least one course
+
+select s.student_name, e.course_name from students as s left join enrollments e on s.student_id=e.student_id;
+
+select  s.student_id, s.student_name, e.enrollment_id, e.course_name from students as s left join enrollments e on s.student_id=e.student_id
+where enrollment_id is NULL;
+
+select  s.student_id, s.student_name, e.enrollment_id, e.course_name from students as s left join enrollments e on s.student_id=e.student_id;
+
+select s.student_id, s.student_name, count(e.enrollment_id) from students as s join enrollments as e on s.student_id = e.student_id
+group by s.student_id, s.student_name;
+
+-- calculate the total credits earned by each students , including students who have not enrolled in any courses 
+
+-- find the number of students in each major
+select major, count(student_id) from students group by major;
+
+select s.major, sum(c.credits) from students as s join enrollments e on s.student-id=e.student_id group by s.major;
+
+ -- length of their names and show the count of students in each group
+select char_length(student_name), count(student_id )from students group by char_length(student_name);
+
+-- find out in each group how many students enrolled in courses
+select char_length(s.student_name),count(s.student_id) from students s join enrollments e
+on s.student_id = e.student_id group by char_length(s.student_name);
+
+select char_length(s.student_name), count(e.student_id) from students s join enrollments e on s.student_id = e.student_id 
+group by char_length(s.student_name) order by count(e.enrollment_id) desc limit 1;
 
 
