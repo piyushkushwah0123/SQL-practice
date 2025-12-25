@@ -346,7 +346,89 @@ select c.customer_name, sum(o.amount) as total_amount
  from actor as a join film_actor as  fa on a.actor_id=fa.actor_id
  group by a.actor_id, a.first_name;
 
--- super key and candidate key
--- what is normalization in sql
--- what is 1nf and 2nf and 3nf(partially dependency)
+-- super key and candidate key in SQL?
+
+-- A Super Key is any set of one or more columns that can uniquely identify a row in a table.It may contain extra (unnecessary) attributes.
+-- Super Keys: {student_id}  ,,  {email}  ,,  {phone}  ,,  {student_id, name}  ,,  {email, phone}
+-- All of these uniquely identify a record → Super Keys
+
+-- A Candidate Key is a minimal super key.
+-- No extra attribute.  If you remove any column, it won’t remain unique
+-- Candidate Keys from above table: {student_id}  ,, {email}  ,,  {phone}
+-- {student_id, name} → Not candidate key (extra column name)
+
+
+-- what is normalization in sql ?
+
+-- Normalization = break big tables into smaller, well-structured tables
+-- Normalization is the process of organizing database tables to reduce redundancy and improve data integrity.
+
+
+-- what is 1nf and 2nf and 3nf(partially dependency)?
+
+-- Normal Form	Removes
+-- 1NF	Repeating / multi-valued data
+-- 2NF	Partial dependency
+-- 3NF	Transitive dependency
+
+
 --  what are outer and self join
+
+-- Outer Join means: Show matching data + non-matching data
+-- Types: LEFT JOIN → all rows from left table 
+--        RIGHT JOIN → all rows from right table
+--        FULL JOIN → all rows from both tables
+-- If no match → value becomes NULL
+
+-- Self Join means: A table is joined with itself
+-- Used when: One row depends on another row in the same table
+--            (example: employee and manager)
+
+-- Outer Join: Join two tables and keep unmatched rows
+-- Self Join: Join a table with itself
+
+use regex;
+CREATE TABLE employee (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100) NOT NULL,
+    job_title VARCHAR(100),
+    manager_id INT,
+    salary DECIMAL(10,2),
+    FOREIGN KEY (manager_id) REFERENCES employee(emp_id)
+);
+INSERT INTO employee (emp_id, emp_name, job_title, manager_id, salary) VALUES
+(1, 'Alice', 'CEO', NULL, 120000),
+
+(2, 'Bob', 'CTO', 1, 95000),
+(3, 'Carol', 'CFO', 1, 90000),
+(4, 'David', 'HR Manager', 1, 85000),
+
+(5, 'Eve', 'Tech Lead', 2, 75000),
+(6, 'Frank', 'Senior Developer', 2, 72000),
+(7, 'Grace', 'Senior Developer', 2, 71000),
+
+(8, 'Heidi', 'Developer', 5, 60000),
+(9, 'Ivan', 'Developer', 5, 58000),
+(10, 'Judy', 'Developer', 6, 59000),
+
+(11, 'Mallory', 'Accountant', 3, 65000),
+(12, 'Niaj', 'Financial Analyst', 3, 62000),
+
+(13, 'Olivia', 'HR Executive', 4, 55000),
+(14, 'Peggy', 'HR Executive', 4, 54000),
+
+(15, 'Sybil', 'Intern', 8, 35000);
+
+select * from employee;
+
+-- in terms of employee
+select emp.emp_id , emp.emp_name , emp.manager_id from employee as emp join employee as manager;
+
+-- in trefernce of manager
+select manager.emp_id , manager.emp_name from employee as manager;
+
+select emp.emp_id , emp.emp_name , emp.manager_id ,emp.salary, manager.emp_id , manager.emp_name  , manager.salary from employee as emp join employee as manager
+where emp.manager_id = manager.emp_id;
+
+
+
