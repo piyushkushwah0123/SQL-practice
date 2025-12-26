@@ -526,4 +526,44 @@ on s.student_id = e.student_id group by char_length(s.student_name);
 select char_length(s.student_name), count(e.student_id) from students s join enrollments e on s.student_id = e.student_id 
 group by char_length(s.student_name) order by count(e.enrollment_id) desc limit 1;
 
+-- CASE
+/*
+if (condition , true, false)
+if( condition , true , if(condtion, true, if)
+
+case 
+    when condition Expression then output
+    when condition. then output
+end     
+*/
+
+select name , population,
+case 
+    when population=0 then 'No population'
+    when population between 8000 and 70000 then 'Med population'
+    else 'Condtion is False'
+end as 'status' from world.country;
+
+select count(*),
+case 
+    when population=0 then 'No population'
+    when population between 8000 and 70000 then 'Med population'
+    else 'Condtion is False'
+end as 'status' from world.country group by status;
+
+select continent, population 
+from world.country;
+
+-- kis continent m esi kitni country h jinki population 8000 - 70000 ke beech m
+-- we can not write where bcz it will give full data and we can't categorize it
+select continent,
+sum(case 
+    when population between 8000 and 70000 then 1 else 0
+end )
+from world.country group by continent;
+
+
+
+
+
 
