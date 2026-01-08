@@ -661,6 +661,85 @@ select ename, department_name, salary from employee
 where salary<=all(select min(salary) from employee e2
 where e2.department_name = employee.department_name);
 
+-- table
+-- DDL statment 
+-- create drop, alter , truncate
+create database regex1;
+use regex1;
+create table test1( sno int); -- tables create (sno column name)
 
+describe test1;
+-- dml ( insert statement) 
 
+-- dml ( insert , update , delete , merge)
+insert into test1 value(10);
+select * from test1;
+insert into test1(sno) value(11);
+insert into test1(sno) value(20),(null),(30); -- 3 rows insert
+
+select count(sno) from test1;  -- column name dete h tab null count nhi karega 
+select count(sno), count(*) from test1;  -- idhar column name dene pr null count nhi kr rha but (*) dene pr null count karega
+
+create table test2 (sno int not null ,salary int);
+
+insert into test2(sno,salary) values (20,1000);
+insert into test2(sno,salary) values (20,null);
+insert into test2(sno,salary) values (null,1000);  -- we have set constraint (error)
+insert into test2(sno) values (1000);
+insert into test2(salary) values (500000);  -- error ( bcz no null and no default set
+
+select * from test2;
+
+-- default constraint 
+
+create table test3(sno int not null default 80, salary int);
+insert into test3(salary) values(1000);
+insert into test3(sno) values(5000);
+
+select * from test3;
+
+-- unique Constraints
+
+create table test4(sno int not null, salary int unique default 100);
+select * from test4;
+
+insert into test4 (sno , salary ) values (1000,20000);
+insert into test4 (sno , salary ) values (1001,20000);  -- error dublicate values 
+
+insert into test4(sno) values(600);
+select * from test4;
+insert into test4(sno) values(700); -- error 100 is a value already in table
+
+insert into test4(sno,salary) values(1001,null);   -- multiple null values can be inserted 
+insert into test4(sno,salary) values(1001224,null);  -- error dublicate values
+
+-- Check Constraints ( condition dena like if else)
+-- check condition 
+
+create table test8(sno int check (sno between 1 and 100),
+check (salary in (1000,2000) ));
+
+drop table test7;
+create table test7(sno int, salary int,
+constraint regex_test7_sno_chk check (sno between 1 and 100),
+constraint regex_test7_salary_chk check (salary in (1000,2000) ));
+ 
+ insert into test7(sno,salary) values (4,1000);
+select * from test7;
+ insert into test7(sno,salary) values (150,1000);  -- error 
+ insert into test7(sno,salary) values (90,1500);   -- error
+
+-- create table name as employee,id with primary key use varchar, email column with unique constraint , college with a default value 
+-- age with a condition greater than 18 and the guardian should be a pallindrome -> ( use check constraint bcz constraint)
+
+create table test9(name varchar(20) , check (name=reverse (name)));
+insert into test9 values('madam');
+select * from test9;
+
+create table employee (id varchar(20) primary key,email varchar(100) unique,
+college varchar(100) default 'ABC College',
+age int check  (age > 18),guardian varchar(50),check (guardian = reverse(guardian)));
+
+insert into employee (id, email, age, guardian)
+values ('01', 'test@gmail.com', 22, 'naman');
 
