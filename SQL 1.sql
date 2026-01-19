@@ -811,7 +811,88 @@ select code, name, continent,
 select code, name, continent,
  population , sum(population) over(order by population)from country;
 
+use world;
+select * from country;
 
+select code, name, continent, population from country;
+
+select population, avg(population) from country;    -- error
+
+select code, name, continent, population, avg(population) over(), sum(population) over() from country;
+
+select continent, sum(population) from country group by continent;
+
+-- over => its is used to perform set of rows calculate ( partion by => based on continent )
+
+select code, name, continent, population,
+sum(population) over(),
+sum(population) over(partition by continent) from country;
+
+select code, name, continent, population,
+sum(population) over(partition by code) from country;
+
+select code, name, continent, region, population,
+sum(population) over(partition by continent),
+sum(population) over(partition by continent,region) from country;
+
+
+
+CREATE DATABASE IF NOT EXISTS window_fn_practice;
+USE window_fn_practice;
+CREATE TABLE employees (
+emp_id INT PRIMARY KEY,
+full_name VARCHAR(100) NOT NULL,
+department VARCHAR(50) NOT NULL,
+city VARCHAR(50) NOT NULL,
+salary INT NOT NULL,
+hire_date DATE NOT NULL
+);
+CREATE TABLE sales (
+sale_id INT PRIMARY KEY,
+emp_id INT NOT NULL,
+sale_date DATE NOT NULL,
+amount DECIMAL(10,2) NOT NULL,
+FOREIGN KEY (emp_id) REFERENCES employees(emp_id)
+);
+
+INSERT INTO employees (emp_id, full_name, department, city, salary, hire_date) VALUES
+(101, 'Asha Nair', 'Sales', 'Mumbai', 65000, '2022-04-10'),
+(102, 'Rohan Mehta', 'Sales', 'Pune', 72000, '2021-07-05'),
+(103, 'Neha Singh', 'Sales', 'Delhi', 68000, '2023-01-15'),
+(104, 'Kabir Rao', 'Engineering', 'Bengaluru', 120000, '2020-09-20'),
+(105, 'Isha Verma', 'Engineering', 'Hyderabad', 110000, '2021-11-12'),
+(106, 'Vikram Das', 'Engineering', 'Bengaluru', 125000, '2019-03-08'),
+(107, 'Pooja Shah', 'HR', 'Mumbai', 60000, '2020-02-01'),
+(108, 'Arjun Iyer', 'HR', 'Chennai', 58000, '2022-06-18');
+
+INSERT INTO sales (sale_id, emp_id, sale_date, amount) VALUES
+(1, 101, '2026-01-02', 12000),
+(2, 101, '2026-01-05', 8000),
+(3, 102, '2026-01-03', 15000),
+(4, 102, '2026-01-09', 5000),
+(5, 103, '2026-01-04', 7000),
+(6, 103, '2026-01-10', 11000),
+(7, 101, '2026-02-02', 14000),
+(8, 102, '2026-02-03', 9000),
+(9, 103, '2026-02-05', 13000),
+(10, 101, '2026-02-08', 6000),
+(11, 102, '2026-02-10', 16000),
+(12, 103, '2026-02-12', 4000);
+
+-- over() => ascending order main arrange krke dena;
+-- running sum/cumulative sum of salary
+
+select *,
+sum(salary) over(order by emp_id) from employees;
+
+select *,
+sum(salary) over(order by full_name) from employees;
+
+select *,
+sum(salary) over(order by month(hire_date)) from employees;
+
+select *,
+sum(salary) over(partition by department order by salary) from employees;
 
 
 
