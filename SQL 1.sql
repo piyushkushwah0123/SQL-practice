@@ -1007,6 +1007,21 @@ from ticket_sales ts
 join events e on ts.event_id = e.event_id;
 
 -- Show sales where the event city is Mumbai.
+select ts.sale_id,e.event_name,e.city,ts.sale_date
+from ticket_sales ts
+join events e on ts.event_id = e.event_id
+where e.city = "mumbai";
+
+-- Show all events and matching sales.
+select e.event_name,ts.sale_id,ts.sale_date
+from ticket_sales ts
+join events e on ts.event_id = e.event_id;
+
+-- Show distinct event names that have at least one sale.
+select distinct e.event_name from events e
+join ticket_sales ts
+on e.event_id = ts.event_id;
+
 
 
 
