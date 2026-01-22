@@ -1022,6 +1022,18 @@ select distinct e.event_name from events e
 join ticket_sales ts
 on e.event_id = ts.event_id;
 
+-- Show each sale’s computed revenue with event name.
+select ts.sale_id,e.event_name,ts.qty * ts.price_per_ticket
+from ticket_sales ts
+join events e on ts.event_id = e.event_id;
+
+-- Find total quantity per event_name.
+select e.event_name,sum(ts.qty) from events e
+join ticket_sales ts
+on e.event_id = ts.event_id 
+group by e.event_name;
+
+-- Find total VIP revenue per event_name.
 
 
 
