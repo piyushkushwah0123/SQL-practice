@@ -1044,3 +1044,16 @@ select e.city,month(ts.sale_date) as sale_month,sum(ts.qty *ts.price_per_ticket)
 from events e join ticket_sales ts on e.event_id = ts.event_id
 group by e.city, month(ts.sale_date)
 order by e.city,sale_month;
+
+-- Find total quantity per city and ticket_type.
+-- select e.city,ts.ticket_type,sum(ts.qty *ts.price_per_ticket) from events e join ticket_sales ts on e.event_id = ts.event_id;
+
+-- Find sales that happened on the latest sale_date in the table.
+
+-- Find sales where revenue is greater than the overall average sale revenue.
+
+-- Find events that have at least one VIP sale.
+select e.event_id, e.event_name
+from events e join ticket_sales ts
+on e.event_id = ts.event_id where ts.ticket_type = 'VIP'
+group by e.event_name,e.event_id;
