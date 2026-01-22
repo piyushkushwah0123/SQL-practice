@@ -1034,6 +1034,10 @@ on e.event_id = ts.event_id
 group by e.event_name;
 
 -- Find total VIP revenue per event_name.
+select e.event_name,sum(ts.qty * ts.price_per_ticket)
+from events e join ticket_sales ts
+on e.event_id = ts.event_id where ts.ticket_type = 'VIP'
+group by e.event_name;
 
 
 
