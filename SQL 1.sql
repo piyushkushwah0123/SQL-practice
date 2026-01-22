@@ -1039,6 +1039,8 @@ from events e join ticket_sales ts
 on e.event_id = ts.event_id where ts.ticket_type = 'VIP'
 group by e.event_name;
 
-
-
-
+-- Find monthly revenue per city.
+select e.city,month(ts.sale_date) as sale_month,sum(ts.qty *ts.price_per_ticket)
+from events e join ticket_sales ts on e.event_id = ts.event_id
+group by e.city, month(ts.sale_date)
+order by e.city,sale_month;
