@@ -1074,9 +1074,9 @@ select * from actor_cp2;
 insert into actor_cp2 values(6,'piyush');
 
 -- autocommit => enable
-set @@autocommit=0;
+set @@autocommit=1;
 select @@autocommit;
-insert into actor_cp2 values(8,'testoo');
+insert into actor_cp2 values(9,'testoo');
 commit;
 rollback;
 select * from actor_cp2;
@@ -1085,5 +1085,9 @@ select * from actor_cp2;
 -- when my transation automatic stop => when i use command of transaction of " commit " and " rollback " then it will be closed
 -- In case we use any DDL , TCL operation then transaction will close.
 -- we cam save permanent by puting "commit" statement.
+
+start transaction;
+insert into actor_cp2 values(11,'Amazon'); 
+select * from actor_cp2;
 
 
