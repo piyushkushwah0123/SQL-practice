@@ -1090,4 +1090,12 @@ start transaction;
 insert into actor_cp2 values(11,'Amazon'); 
 select * from actor_cp2;
 
+start transaction;
+insert into actor_cp2 values(12,'abcdef');
+insert into actor_cp2 values(13,'fedcba');
+delete from actor_cp2 where actor_id in (7,9); 
+select * from actor_cp2; 
+rollback;
+select * from actor_cp2;
+
 
