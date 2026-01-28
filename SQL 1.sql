@@ -1117,34 +1117,6 @@ select * from cte;
 
 -- we have to find out the employee hierarchy  { recursive cte }
 
--- Step 1: Create database
-CREATE DATABASE IF NOT EXISTS company;
-
--- Step 2: Select database
-USE company;
-
--- Step 3: Create employees table
-CREATE TABLE employees (
-    employeeid INT PRIMARY KEY,
-    name VARCHAR(50),
-    managerid INT,
-    CONSTRAINT fk_manager
-        FOREIGN KEY (managerid)
-        REFERENCES employees(employeeid)
-);
-
-INSERT INTO employees VALUES
-(1, 'CEO', NULL),
-(2, 'Manager', 1),
-(3, 'Developer', 2);
-
-INSERT INTO employees (employeeid, name, managerid) VALUES
-(1, 'Alice', NULL),      -- CEO
-(2, 'Bob', 1),           -- Reports to Alice
-(3, 'Charlie', 2),       -- Reports to Bob
-(4, 'Diana', 2),         -- Reports to Bob
-(5, 'Eve', 3);           -- Reports to Charlie
-
 
 
 
