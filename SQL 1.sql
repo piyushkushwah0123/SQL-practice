@@ -1093,9 +1093,59 @@ select * from actor_cp2;
 start transaction;
 insert into actor_cp2 values(12,'abcdef');
 insert into actor_cp2 values(13,'fedcba');
+savepoint db_actor_cp2_checkpoint1;
 delete from actor_cp2 where actor_id in (7,9); 
 select * from actor_cp2; 
-rollback;
+rollback;  -- rollback (initial save point)
 select * from actor_cp2;
+
+-- what is dbms and rdbms?
+-- what MySql?
+-- what os Normalistion?
+
+select actor_id, first_name from sakila.actor where actor_id between 1 and 4
+union all
+select first_name, actor_id from sakila.actor where actor_id between 1 and 5;
+
+with recursive cte as 
+(select 10 as n            -- assiging values to this n column { starting point }
+union all                   
+select n+1 from cte         -- cte call karna
+where n<15 )               -- termination condition { stop point } 
+
+select * from cte;
+
+-- we have to find out the employee hierarchy  { recursive cte }
+
+-- Step 1: Create database
+CREATE DATABASE IF NOT EXISTS company;
+
+-- Step 2: Select database
+USE company;
+
+-- Step 3: Create employees table
+CREATE TABLE employees (
+    employeeid INT PRIMARY KEY,
+    name VARCHAR(50),
+    managerid INT,
+    CONSTRAINT fk_manager
+        FOREIGN KEY (managerid)
+        REFERENCES employees(employeeid)
+);
+
+INSERT INTO employees VALUES
+(1, 'CEO', NULL),
+(2, 'Manager', 1),
+(3, 'Developer', 2);
+
+INSERT INTO employees (employeeid, name, managerid) VALUES
+(1, 'Alice', NULL),      -- CEO
+(2, 'Bob', 1),           -- Reports to Alice
+(3, 'Charlie', 2),       -- Reports to Bob
+(4, 'Diana', 2),         -- Reports to Bob
+(5, 'Eve', 3);           -- Reports to Charlie
+
+
+
 
 
