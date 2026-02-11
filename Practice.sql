@@ -1,6 +1,6 @@
+CREATE DATABASE regex2;
+USE regex2;
+CREATE TABLE regex2(id INT PRIMARY KEY,name VARCHAR(50),city VARCHAR(50));
 
-use regex1;
 
-select * from actor_cp2;
 
-select * from actor_cp2;
