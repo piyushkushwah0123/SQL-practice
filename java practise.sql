@@ -1,0 +1,1 @@
+SELECT * FROM regex2.regex2;
